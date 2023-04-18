@@ -1,26 +1,16 @@
 const mongoose = require('mongoose');
 
-// Schema
+// Global Config
+const mongoURI = process.env.MONGO_URI;
+const db = mongoose.connection;
 
-const flightSchema = new mongoose.Schema({
-    airline: {
-        type: String,
-        required: true,
-        enum: ['American', 'Southwest', 'United']
-    },
-    flightNo: {
-        type: Number,
-        required: true,
-        min: 10,
-        max: 9999
-    },
-    departs: {
-        type: Date,
-        required: true
-    }
+module.exports = function(){
+    // connecting to mongoDB
+    mongoose.set('strictQuery', true)
+    mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
 
-},
-{timestamps: true});
-
-const Flight = mongoose.model('Flight', flightSchema);
-module.exports = Flight;
+    // listen for errors on connection
+    db.on('error', (error) => console.error(error))
+    db.on('open', () => console.log('Connected to MongoDB!'))
+    db.on('close', () => console.log('Mongo Disconnected'))
+}

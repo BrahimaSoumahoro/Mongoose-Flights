@@ -60,7 +60,7 @@ app.use(express.urlencoded({extended: false}));
 
 // Home Page
 app.get('/', (req, res) => {
-    res.send('<h1>Welcome to the Airport!</h1>');
+    res.send('<h1>Welcome to ZamZiBa Luxury Flights!</h1>');
 });
 
 /**
